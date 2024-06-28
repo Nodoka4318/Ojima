@@ -10,7 +10,7 @@ group = "net.kankantari"
 version = "0.0.1"
 
 application {
-    mainClass.set("net.kankantari.ApplicationKt")
+    mainClass.set("net.kankantari.ojima.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")

@@ -1,4 +1,4 @@
-package net.kankantari.plugins
+package net.kankantari.ojima.plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.response.*

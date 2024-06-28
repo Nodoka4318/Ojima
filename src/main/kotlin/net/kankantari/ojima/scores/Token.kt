@@ -1,4 +1,4 @@
-package net.kankantari.score
+package net.kankantari.ojima.scores
 
 class Token {
     var type: EnumTokenType;
