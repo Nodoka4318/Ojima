@@ -3,20 +3,23 @@ package net.kankantari.ojima.scores
 import net.kankantari.ojima.errors.OjimaError
 
 class Score {
-    val source: String
+    val source: String;
+    val tokens: List<Token>;
 
     constructor(source: String) {
         this.source = source;
+        this.tokens = parse(this.source);
     }
 
     companion object {
         fun parse(source: String): MutableList<Token> {
             var index = 0;
-            var literals = source.map { Literal.findLiteral(it) }; // TODO: コメントアウト、改行無視を実装
+            val cleaned = removeComments(source);
+            var literals = cleaned.map { Literal.findLiteral(it) };
 
             var tokens = mutableListOf<Token>();
 
-            while(index <= source.length) {
+            while(index < literals.size) {
                 var lit = literals[index];
 
                 if (lit.type == EnumLiteralType.Extend) { // 伸ばしだったとき、連続する伸ばしリテラルを全て読む
@@ -31,6 +34,11 @@ class Score {
 
                     while (literals[++index].type == EnumLiteralType.Extend) {
                         markerCount++;
+
+                        if (index + 1 >= literals.size) { // 最後のリテラルが伸ばしだったとき
+                            index++;
+                            break;
+                        }
                     }
 
                     tokens.last().length *= markerCount + 1; // (markerCount + 1)倍する
@@ -44,6 +52,34 @@ class Score {
             }
 
             return tokens;
+        }
+
+        /**
+         * コメントと空白・改行を除く
+         */
+        private fun removeComments(source: String): String {
+            val sb = StringBuilder();
+            var inComment = false;
+
+            for (i in source.indices) {
+                if (source[i] == '(') {
+                    inComment = true;
+                } else if (source[i] == ')') {
+                    if (!inComment) {
+                        throw OjimaError("Comment is not started.", "コメントがありません。");
+                    }
+
+                    inComment = false;
+                } else if (!inComment && !source[i].isWhitespace()) {
+                    sb.append(source[i]);
+                }
+            }
+
+            if (inComment) {
+                throw OjimaError("Comment is not ended.", "コメントが閉じられていません。");
+            }
+
+            return sb.toString();
         }
     }
 }
