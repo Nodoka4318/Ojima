@@ -12,7 +12,9 @@ class DefaultOjimizer : Ojimizer {
         var frameSizes = mutableListOf<Int>();
         var beatByFar = 0f;
 
-        val reversedIndexSet = this.frameIndexSet.reversed();
+        // 最後のフレームを除く
+        val indexSet = this.frameIndexSet.slice(0..this.frameIndexSet.size - 2);
+        val reversedIndexSet = this.frameIndexSet.reversed().slice(0..this.frameIndexSet.size - 2);
 
         for (token in this.score.tokens) {
             val frameSize = this.fps * token.length / this.bpm * 60;
@@ -26,7 +28,7 @@ class DefaultOjimizer : Ojimizer {
             frameSizes.add(Math.round(frameSize + adjustment));
 
             if (token.type == EnumTokenType.Forward) {
-                ojimized.addAll(resizeList(this.frameIndexSet, frameSizes.last()));
+                ojimized.addAll(resizeList(indexSet, frameSizes.last()));
             } else if (token.type == EnumTokenType.Backward) {
                 ojimized.addAll(resizeList(reversedIndexSet, frameSizes.last()));
             } else if (token.type == EnumTokenType.Rest) {
