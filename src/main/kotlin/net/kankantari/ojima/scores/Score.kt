@@ -32,10 +32,14 @@ class Score {
 
                     var markerCount = 1;
 
+                    if (index + 1 >= literals.size) { // 最後が1つの伸ばしだったとき（d-）
+                        break;
+                    }
+
                     while (literals[++index].type == EnumLiteralType.Extend) {
                         markerCount++;
 
-                        if (index + 1 >= literals.size) { // 最後のリテラルが伸ばしだったとき
+                        if (index + 1 >= literals.size) { // 最後のリテラルが連続する伸ばしだったとき（d--）
                             index++;
                             break;
                         }

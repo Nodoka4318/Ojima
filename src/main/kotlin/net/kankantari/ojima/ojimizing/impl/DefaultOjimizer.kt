@@ -1,5 +1,6 @@
 package net.kankantari.ojima.ojimizing.impl
 
+import net.kankantari.ojima.errors.OjimaError
 import net.kankantari.ojima.ojimizing.Ojimizer
 import net.kankantari.ojima.scores.EnumTokenType
 
@@ -11,6 +12,7 @@ class DefaultOjimizer : Ojimizer {
 
         var frameSizes = mutableListOf<Int>();
         var beatByFar = 0f;
+        var lastTokenType = EnumTokenType.Backward;
 
         // 最後のフレームを除く
         val indexSet = this.frameIndexSet.slice(0..this.frameIndexSet.size - 2);
@@ -32,13 +34,18 @@ class DefaultOjimizer : Ojimizer {
             } else if (token.type == EnumTokenType.Backward) {
                 ojimized.addAll(resizeList(reversedIndexSet, frameSizes.last()));
             } else if (token.type == EnumTokenType.Rest) {
-                // 最後のフレームを繰り返す
-                val lastIndex = ojimized.last();
+                var lastIndex = 0;
 
-                for (i in 0..frameSizes.last()) {
-                    ojimized.add(lastIndex);
+                when (lastTokenType) {
+                    EnumTokenType.Forward -> reversedIndexSet.first()
+                    EnumTokenType.Backward -> indexSet.first()
+                    EnumTokenType.Rest -> ojimized.last()
                 }
+
+                ojimized.addAll(List(frameSizes.last()) { lastIndex } )
             }
+
+            lastTokenType = token.type;
         }
 
         return ojimized;
@@ -63,6 +70,5 @@ class DefaultOjimizer : Ojimizer {
 
             return result;
         }
-
     }
 }
