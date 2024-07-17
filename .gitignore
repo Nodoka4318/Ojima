@@ -36,3 +36,5 @@ out/
 .vscode/
 
 src/test/kotlin/etc/
+process_cache
+config.json

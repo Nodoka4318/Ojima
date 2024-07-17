@@ -5,9 +5,7 @@ import org.bytedeco.ffmpeg.global.avcodec
 import org.bytedeco.javacv.FFmpegFrameGrabber
 import org.bytedeco.javacv.FFmpegFrameRecorder
 import org.bytedeco.javacv.Frame
-import org.bytedeco.javacv.Java2DFrameConverter
 import java.io.File
-import java.nio.file.Path
 
 abstract class Ojimizer {
     val name: String;
@@ -16,6 +14,7 @@ abstract class Ojimizer {
     lateinit var frameIndexSet: List<Int>;
     lateinit var score: Score;
     lateinit var inputVideoFile: File;
+    lateinit var ojimaOptions: Map<String, String>
     var bpm: Int = 0;
     var fps: Float = 0f;
 
@@ -50,6 +49,10 @@ abstract class Ojimizer {
     }
 
     abstract fun ojimizeIndex(): List<Int>;
+
+    fun setOptions(options: Map<String, String>) {
+        this.ojimaOptions = options;
+    }
 
     fun ojimizeVideo(outputFile: File, bitrate: Int = -1) {
         val frameGrabber = FFmpegFrameGrabber(this.inputVideoFile);

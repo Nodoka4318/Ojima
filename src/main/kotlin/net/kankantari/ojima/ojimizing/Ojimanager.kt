@@ -6,7 +6,7 @@ import net.kankantari.ojima.ojimizing.impl.DefaultOjimizer
 import net.kankantari.ojima.ojimizing.impl.KakukakuOjimizer
 
 class Ojimanager {
-    class JsonOjimizerModel(val name: String, val description: String);
+    data class JsonOjimizerModel(val name: String, val description: String);
 
     companion object {
         private val ojimizers = listOf(

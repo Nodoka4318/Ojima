@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.ir.backend.js.compile
+
 val kotlin_version: String by project
 val logback_version: String by project
 
@@ -25,7 +27,9 @@ dependencies {
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("org.bytedeco:javacv-platform:1.5.10")
-    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("io.ktor:ktor-server-content-negotiation")
+    implementation("io.ktor:ktor-serialization-gson")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }
