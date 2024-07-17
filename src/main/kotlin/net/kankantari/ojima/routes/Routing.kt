@@ -31,20 +31,29 @@ fun Application.configureRouting() {
             call.respondText(Ojimanager.generateOjimizerModelsJson())
         }
 
-        get("/reload") {
+        post("/reload") {
             call.response.headers.append("Content-Type", "application/json; charset=UTF-8")
             var status = "failed"
 
             try {
-                val request = call.receive<AdminRequest>()
+                val requestBody = call.receiveText()
+                val request = Gson().fromJson<AdminRequest>(requestBody, object : TypeToken<AdminRequest>() {}.type)
 
                 if (request.password == Config.config.adminPassword) {
                     Config.load()
                     status = "success"
+
+                    call.application.environment.log.info("Reloaded config.")
+                } else {
+                    call.application.environment.log.warn("Invalid password was given.")
                 }
             } catch(error: Error) {
                 error.printStackTrace()
             } finally {
+                if (status == "failed") {
+                    call.respond(HttpStatusCode.Unauthorized)
+                }
+
                 call.respondText(Gson().toJson(Status(status)))
             }
         }
@@ -164,7 +173,7 @@ fun Application.configureRouting() {
                     OjimaStatus(id, "failed", error.webErrorMsg, false).json()
                 )
 
-                call.respond(HttpStatusCode.BadRequest, error.webErrorMsg)
+                call.respond(HttpStatusCode.BadRequest)
 
                 error.printStackTrace()
             } catch (error: Error) {
@@ -173,7 +182,7 @@ fun Application.configureRouting() {
                     OjimaStatus(id, "failed", "内部エラーが発生しました。", false).json()
                 )
 
-                call.respond(HttpStatusCode.BadRequest, "内部エラーが発生しました。")
+                call.respond(HttpStatusCode.BadRequest)
 
                 error.printStackTrace()
             }
