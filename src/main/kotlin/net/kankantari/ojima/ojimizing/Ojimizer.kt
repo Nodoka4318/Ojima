@@ -1,5 +1,6 @@
 package net.kankantari.ojima.ojimizing
 
+import net.kankantari.ojima.errors.OjimaError
 import net.kankantari.ojima.scores.Score
 import org.bytedeco.ffmpeg.global.avcodec
 import org.bytedeco.javacv.FFmpegFrameGrabber
@@ -14,7 +15,7 @@ abstract class Ojimizer {
     lateinit var frameIndexSet: List<Int>;
     lateinit var score: Score;
     lateinit var inputVideoFile: File;
-    lateinit var ojimaOptions: Map<String, String>
+    lateinit var ojimaOptions: Map<String, Any>
     var bpm: Int = 0;
     var fps: Float = 0f;
 
@@ -50,8 +51,41 @@ abstract class Ojimizer {
 
     abstract fun ojimizeIndex(): List<Int>;
 
-    fun setOptions(options: Map<String, String>) {
+    /**
+     * オプションの設定（適宜派生クラスで実装）
+     * 必ずinitializeの後に実行すること
+     */
+    fun setOptions(options: Map<String, Any>) {
         this.ojimaOptions = options;
+
+        // 共通オプション (startFrame, endFrame)
+        if (options.containsKey("startFrame") || options.containsKey("endFrame")) {
+            if (options.containsKey("startFrame") && options.containsKey("endFrame")) {
+                try {
+                    val startFrame = options.get("startFrame") as Int
+                    val endFrame = options.get("endFrame") as Int
+
+                    val max = frameIndexSet.last()
+
+                    if (startFrame < 0 || startFrame > max || endFrame < 0 || endFrame > max) {
+                        throw Error("Invalid frame range")
+                    }
+
+                    frameIndexSet = (startFrame..<endFrame - 1).toList(); // なぜか-1
+                } catch (error: Error) {
+                    error.printStackTrace()
+                    throw OjimaError(
+                        "Error whilst setting custom startFrame and endFrame.",
+                        "フレーム開始位置または終了位置が不正です。"
+                    )
+                }
+            } else {
+                throw OjimaError(
+                    "Either startFrame or endFrame is missing.",
+                    "startFrameまたはendFrameオプションのいずれかが不足しています。"
+                )
+            }
+        }
     }
 
     fun ojimizeVideo(outputFile: File, bitrate: Int = -1) {
@@ -75,6 +109,16 @@ abstract class Ojimizer {
 
             if (frame != null) {
                 frameRecorder.record(frame);
+            } else {
+                frameRecorder.stop()
+                frameRecorder.release()
+                frameGrabber.stop()
+                frameGrabber.release()
+
+                throw OjimaError(
+                    "Frame number out of the range of video frame size.",
+                    "動画編集処理に失敗しました。フレーム番号が不正です。"
+                )
             }
         }
 

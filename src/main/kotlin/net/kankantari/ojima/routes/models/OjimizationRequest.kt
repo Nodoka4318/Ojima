@@ -5,5 +5,5 @@ data class OjimizationRequest(
     val score: String, val mode: String,
     val bpm: Int,
     val fps: Float,
-    val options: Map<String, String>
+    val options: Map<String, Any>
 );

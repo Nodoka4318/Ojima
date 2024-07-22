@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
-import java.util.UUID
+import java.util.*
 
 class Config {
     var port: Int = DEFAULT_PORT
@@ -47,8 +47,8 @@ class Config {
             field = value
         }
 
-    fun save(path: String = configFile) {
-        val jsonStr = GsonBuilder().setPrettyPrinting().create().toJson(this)
+    fun save(path: String = CONFIG_FILE) {
+        val jsonStr = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(this)
         val file = File(path)
 
         if (file.exists()) {
@@ -60,7 +60,7 @@ class Config {
     }
 
     companion object {
-        const val configFile = "./config.json"
+        const val CONFIG_FILE = "./config.json"
 
         const val DEFAULT_PORT = 8080
         const val DEFAULT_PROCESS_CACHE_PATH = "./process_cache"
@@ -69,7 +69,7 @@ class Config {
 
         lateinit var config: Config
 
-        fun load(path: String = configFile) {
+        fun load(path: String = CONFIG_FILE) {
             val file = File(path)
             if (!file.exists()) {
                 val conf = Config()

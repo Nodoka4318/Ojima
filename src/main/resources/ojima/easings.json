@@ -1,0 +1,122 @@
+[
+    {
+        "name": "EaseInSine",
+        "expression": "1 - Math.cos((x * Math.PI) / 2)"
+    },
+    {
+        "name": "EaseOutSine",
+        "expression": "Math.sin((x * Math.PI) / 2)"
+    },
+    {
+        "name": "EaseInOutSine",
+        "expression": "-(Math.cos(Math.PI * x) - 1) / 2"
+    },
+    {
+        "name": "EaseInQuad",
+        "expression": "x * x"
+    },
+    {
+        "name": "EaseOutQuad",
+        "expression": "1 - (1 - x) * (1 - x)"
+    },
+    {
+        "name": "EaseInOutQuad",
+        "expression": "x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2"
+    },
+    {
+        "name": "EaseInCubic",
+        "expression": "x * x * x"
+    },
+    {
+        "name": "EaseOutCubic",
+        "expression": "1 - Math.pow(1 - x, 3)"
+    },
+    {
+        "name": "EaseInOutCubic",
+        "expression": "x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2"
+    },
+    {
+        "name": "EaseInQuart",
+        "expression": "x * x * x * x"
+    },
+    {
+        "name": "EaseOutQuart",
+        "expression": "1 - Math.pow(1 - x, 4)"
+    },
+    {
+        "name": "EaseInOutQuart",
+        "expression": "x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2"
+    },
+    {
+        "name": "EaseInQuint",
+        "expression": "x * x * x * x * x"
+    },
+    {
+        "name": "EaseOutQuint",
+        "expression": "1 - Math.pow(1 - x, 5)"
+    },
+    {
+        "name": "EaseInOutQuint",
+        "expression": "x < 0.5 ? 16 * x * x * x * x * x : 1 - Math.pow(-2 * x + 2, 5) / 2"
+    },
+    {
+        "name": "EaseInExpo",
+        "expression": "x === 0 ? 0 : Math.pow(2, 10 * x - 10)"
+    },
+    {
+        "name": "EaseOutExpo",
+        "expression": "x === 1 ? 1 : 1 - Math.pow(2, -10 * x)"
+    },
+    {
+        "name": "EaseInOutExpo",
+        "expression": "x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2"
+    },
+    {
+        "name": "EaseInCirc",
+        "expression": "1 - Math.sqrt(1 - Math.pow(x, 2))"
+    },
+    {
+        "name": "EaseOutCirc",
+        "expression": "Math.sqrt(1 - Math.pow(x - 1, 2))"
+    },
+    {
+        "name": "EaseInOutCirc",
+        "expression": "x < 0.5 ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2 : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2"
+    },
+    {
+        "name": "EaseInBack",
+        "expression": "2.70158 * x * x * x - 1.70158 * x * x"
+    },
+    {
+        "name": "EaseOutBack",
+        "expression": "1 + 2.70158 * Math.pow(x - 1, 3) + 1.70158 * Math.pow(x - 1, 2)"
+    },
+    {
+        "name": "EaseInOutBack",
+        "expression": "x < 0.5 ? (Math.pow(2 * x, 2) * ((1.70158 * 1.525 + 1) * 2 * x - 1.70158 * 1.525)) / 2 : (Math.pow(2 * x - 2, 2) * ((1.70158 * 1.525 + 1) * (x * 2 - 2) + 1.70158  * 1.525) + 2) / 2"
+    },
+    {
+        "name": "EaseInElastic",
+        "expression": "x === 0 ? 0 : x === 1 ? 1 : -Math.pow(2, 10 * x - 10) * Math.sin((x * 10 - 10.75) * (2 * Math.PI) / 3)"
+    },
+    {
+        "name": "EaseOutElastic",
+        "expression": "x === 0 ? 0 : x === 1 ? 1 : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * (2 * Math.PI) / 3) + 1"
+    },
+    {
+        "name": "EaseInOutElastic",
+        "expression": "x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ? -(Math.pow(2, 20 * x - 10) * Math.sin((20 * x - 11.125) * (2 * Math.PI) / 4.5)) / 2 : (Math.pow(2, -20 * x + 10) * Math.sin((20 * x - 11.125) * (2 * Math.PI) / 4.5)) / 2 + 1"
+    },
+    {
+        "name": "EaseInBounce",
+        "expression": "1 - (x = 1 - x) < 1 / 2.75 ? 7.5625 * x * x : x < 2 / 2.75 ? 7.5625 * (x -= 1.5 / 2.75) * x + 0.75 : x < 2.5 / 2.75 ? 7.5625 * (x -= 2.25 / 2.75) * x + 0.9375 : 7.5625 * (x -= 2.625 / 2.75) * x + 0.984375"
+    },
+    {
+        "name": "EaseOutBounce",
+        "expression": "x < 1 / 2.75 ? 7.5625 * x * x : x < 2 / 2.75 ? 7.5625 * (x -= 1.5 / 2.75) * x + 0.75 : x < 2.5 / 2.75 ? 7.5625 * (x -= 2.25 / 2.75) * x + 0.9375 : 7.5625 * (x -= 2.625 / 2.75) * x + 0.984375"
+    },
+    {
+        "name": "EaseInOutBounce",
+        "expression": "x < 0.5 ? (1 - (x = 1 - 2 * x) < 1 / 2.75 ? 7.5625 * x * x : x < 2 / 2.75 ? 7.5625 * (x -= 1.5 / 2.75) * x + 0.75 : x < 2.5 / 2.75 ? 7.5625 * (x -= 2.25 / 2.75) * x + 0.9375 : 7.5625 * (x -= 2.625 / 2.75) * x + 0.984375) / 2 : (1 + (x = 2 * x - 1) < 1 / 2.75 ? 7.5625 * x * x : x < 2 / 2.75 ? 7.5625 * (x -= 1.5 / 2.75) * x + 0.75 : x < 2.5 / 2.75 ? 7.5625 * (x -= 2.25 / 2.75) * x + 0.9375 : 7.5625 * (x -= 2.625 / 2.75) * x + 0.984375) / 2"
+    }
+]

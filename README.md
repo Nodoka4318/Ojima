@@ -20,7 +20,7 @@ Retrieves the list of Ojimizer models in JSON format.
     {
       "name": "Ojimizer Model 2",
       "description": "Description of Ojimizer Model 2"
-    }
+    },
     ...
   ]
   ```
@@ -68,9 +68,18 @@ Processes a video using the specified Ojimizer settings.
   | mode         | Ojimizer mode to use          |
   | bpm          | Beats per minute for the score|
   | fps          | Frames per second for the video|
-  | options      | Additional options (JSON)     |
+  | options      | (Optional) Additional options (JSON)|
   | video        | Video file to process         |
-
+  
+  - Options:
+    ```json
+    {
+      "startFrame": 10,
+      "endFrame": 60,
+      "easing": "custom",
+      "easingExpression": "x == 0 ? 0 : pow(2, 10 * x - 10)"
+    }
+    ```
 #### Response
 - `200 OK`: Processed video file and `ojima-status` header with status information
 - `400 Bad Request`: `ojima-status` header with error information and no body
@@ -95,6 +104,18 @@ Processes a video using the specified Ojimizer settings.
   }
   ```
 
+## Credits
 
+This project was made possible by the following libraries and tools:
 
+- **Ktor**: An asynchronous framework for creating microservices and web applications in Kotlin.
+    - [Ktor](https://ktor.io/) by JetBrains.
 
+- **Logback**: A reliable and general-purpose logging framework for Java applications.
+    - [Logback](http://logback.qos.ch/) by QOS.ch.
+
+- **JavaCV**: A set of Java wrappers for OpenCV and other computer vision libraries.
+    - [JavaCV](https://bytedeco.org/) by Samuel Audet and contributors.
+
+- **Gson**: A Java library that can be used to convert Java Objects into their JSON representation.
+    - [Gson](https://github.com/google/gson) by Google.

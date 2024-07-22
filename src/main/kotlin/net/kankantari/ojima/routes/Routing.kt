@@ -69,7 +69,7 @@ fun Application.configureRouting() {
             var mode: String = ""
             var bpm: Int = -1
             var fps: Float = -1f
-            var options: Map<String, String> = mapOf()
+            var options: Map<String, Any> = mapOf()
 
             multipart.forEachPart { part ->
                 when (part) {
@@ -91,7 +91,7 @@ fun Application.configureRouting() {
                                 fps = part.value.toFloat()
                             }
                             "options" -> {
-                                val type = object : TypeToken<Map<String, String>>() {}.type
+                                val type = object : TypeToken<Map<String, Any>>() {}.type
                                 options = Gson().fromJson(part.value, type)
                             }
 
