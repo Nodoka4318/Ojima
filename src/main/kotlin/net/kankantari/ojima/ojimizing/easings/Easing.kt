@@ -70,5 +70,13 @@ class Easing(@Expose val name: String, @Expose val expression: String) {
                 "'$name'という名前のイージングが見つかりませんでした。"
             )
         }
+
+        fun generateDefaultEasingsJson(): String {
+            return GsonBuilder()
+                .setPrettyPrinting()
+                .disableHtmlEscaping()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create().toJson(defaultEasings)
+        }
     }
 }

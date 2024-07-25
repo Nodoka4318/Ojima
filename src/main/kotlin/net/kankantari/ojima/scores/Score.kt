@@ -19,7 +19,7 @@ class Score {
 
             var tokens = mutableListOf<Token>();
 
-            while(index < literals.size) {
+            while (index < literals.size) {
                 var lit = literals[index];
 
                 if (lit.type == EnumLiteralType.Extend) { // 伸ばしだったとき、連続する伸ばしリテラルを全て読む

@@ -3,6 +3,7 @@ package net.kankantari.ojima.ojimizing
 import com.google.gson.Gson
 import net.kankantari.ojima.errors.OjimaError
 import net.kankantari.ojima.ojimizing.impl.DefaultOjimizer
+import net.kankantari.ojima.ojimizing.impl.EasingOjimizer
 import net.kankantari.ojima.ojimizing.impl.KakukakuOjimizer
 
 class Ojimanager {
@@ -11,7 +12,8 @@ class Ojimanager {
     companion object {
         private val ojimizers = listOf(
             DefaultOjimizer(),
-            KakukakuOjimizer()
+            KakukakuOjimizer(),
+            EasingOjimizer()
         )
 
         fun getOjimizer(name: String): Ojimizer {

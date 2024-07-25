@@ -13,6 +13,7 @@ import io.ktor.server.routing.*
 import net.kankantari.ojima.Config
 import net.kankantari.ojima.errors.OjimaError
 import net.kankantari.ojima.ojimizing.Ojimanager
+import net.kankantari.ojima.ojimizing.easings.Easing
 import net.kankantari.ojima.routes.models.AdminRequest
 import net.kankantari.ojima.routes.models.OjimaStatus
 import net.kankantari.ojima.routes.models.OjimizationRequest
@@ -29,6 +30,11 @@ fun Application.configureRouting() {
         get("/ojimizers") {
             call.response.headers.append("Content-Type", "application/json; charset=UTF-8")
             call.respondText(Ojimanager.generateOjimizerModelsJson())
+        }
+
+        get("/easings") {
+            call.response.headers.append("Content-Type", "application/json; charset=UTF-8")
+            call.respondText(Easing.generateDefaultEasingsJson())
         }
 
         post("/reload") {
