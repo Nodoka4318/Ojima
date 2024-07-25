@@ -1,16 +1,13 @@
 package net.kankantari.ojima.ojimizing.impl
 
-import net.kankantari.ojima.errors.OjimaError
 import net.kankantari.ojima.ojimizing.Ojimizer
 import net.kankantari.ojima.scores.EnumTokenType
 
-class DefaultOjimizer : Ojimizer {
-    constructor() : super("デフォルト", "普通の大島");
-
+class DefaultOjimizer() : Ojimizer("デフォルト", "普通の大島") {
     override fun ojimizeIndex(): List<Int> {
-        var ojimized = mutableListOf<Int>();
+        val ojimized = mutableListOf<Int>();
 
-        var frameSizes = mutableListOf<Int>();
+        val frameSizes = mutableListOf<Int>();
         var beatByFar = 0f;
         var lastTokenType = EnumTokenType.Backward;
 
@@ -34,9 +31,7 @@ class DefaultOjimizer : Ojimizer {
             } else if (token.type == EnumTokenType.Backward) {
                 ojimized.addAll(resizeList(reversedIndexSet, frameSizes.last()));
             } else if (token.type == EnumTokenType.Rest) {
-                var lastIndex = 0;
-
-                when (lastTokenType) {
+                val lastIndex = when (lastTokenType) {
                     EnumTokenType.Forward -> reversedIndexSet.first()
                     EnumTokenType.Backward -> indexSet.first()
                     EnumTokenType.Rest -> ojimized.last()

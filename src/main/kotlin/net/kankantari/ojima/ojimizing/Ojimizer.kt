@@ -8,9 +8,7 @@ import org.bytedeco.javacv.FFmpegFrameRecorder
 import org.bytedeco.javacv.Frame
 import java.io.File
 
-abstract class Ojimizer {
-    val name: String;
-    val description: String;
+abstract class Ojimizer(val name: String, val description: String) {
 
     lateinit var frameIndexSet: List<Int>;
     lateinit var score: Score;
@@ -19,11 +17,6 @@ abstract class Ojimizer {
     var bpm: Int = 0;
     var fps: Float = 0f;
 
-
-    constructor(name: String, description: String) {
-        this.name = name;
-        this.description = description;
-    }
 
     fun initialize(score: Score, bpm: Int, fps: Float, inputVideoFile: File, frameIndexSet: List<Int>) {
         this.score = score;
@@ -55,7 +48,7 @@ abstract class Ojimizer {
      * オプションの設定（適宜派生クラスで実装）
      * 必ずinitializeの後に実行すること
      */
-    fun setOptions(options: Map<String, Any>) {
+    open fun setOptions(options: Map<String, Any>) {
         this.ojimaOptions = options;
 
         // 共通オプション (startFrame, endFrame)
@@ -71,7 +64,8 @@ abstract class Ojimizer {
                         throw Error("Invalid frame range")
                     }
 
-                    frameIndexSet = (startFrame..<endFrame - 1).toList(); // なぜか-1
+                    // optionのstartFrame, endFrameは1から始める
+                    frameIndexSet = (startFrame - 1..<endFrame).toList(); // なぜか-1
                 } catch (error: Error) {
                     error.printStackTrace()
                     throw OjimaError(
@@ -117,7 +111,7 @@ abstract class Ojimizer {
 
                 throw OjimaError(
                     "Frame number out of the range of video frame size.",
-                    "動画編集処理に失敗しました。フレーム番号が不正です。"
+                    "動画編集処理に失敗しました。範囲外のフレームが指定されています。"
                 )
             }
         }

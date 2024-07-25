@@ -119,3 +119,10 @@ This project was made possible by the following libraries and tools:
 
 - **Gson**: A Java library that can be used to convert Java Objects into their JSON representation.
     - [Gson](https://github.com/google/gson) by Google.
+
+## Donate
+
+If you find this project useful, consider donating to support development.
+
+- **BTC**: `1J7JJKbrocSw4S74MzoBDQxAwZFerCfHdN`
+- **ETH**: `0xa197d2aa2941e4c2258be0a07f551fb58d977c74`

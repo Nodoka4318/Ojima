@@ -7,9 +7,12 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.routing.*
 import net.kankantari.ojima.routes.*
 import java.text.DateFormat
+import net.kankantari.ojima.ojimizing.easings.Easing
+import net.kankantari.ojima.routes.configureRouting
 
 fun main() {
     Config.load()
+    Easing.loadDefaultEasings()
 
     embeddedServer(Netty, port = Config.config.port, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
@@ -18,3 +21,6 @@ fun main() {
 fun Application.module() {
     configureRouting()
 }
+
+fun getResourceAsText(path: String): String? =
+    object {}.javaClass.getResource(path)?.readText()

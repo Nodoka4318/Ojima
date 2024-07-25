@@ -3,9 +3,7 @@ package net.kankantari.ojima.ojimizing.impl
 import net.kankantari.ojima.ojimizing.Ojimizer
 import net.kankantari.ojima.scores.EnumTokenType
 
-class KakukakuOjimizer : Ojimizer {
-    constructor() : super("カクカク", "最初のフレームと最後のフレームのみを繰り返します。");
-
+class KakukakuOjimizer() : Ojimizer("カクカク", "最初のフレームと最後のフレームのみを繰り返します。") {
     override fun ojimizeIndex(): List<Int> {
         var ojimized = mutableListOf<Int>();
 
