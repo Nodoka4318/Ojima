@@ -11,6 +11,18 @@ import net.kankantari.ojima.ojimizing.easings.Easing
 import net.kankantari.ojima.routes.configureRouting
 
 fun main() {
+    val ascii = """
+   ____    _ _                
+  / __ \  (_|_)___ ___  ____ _
+ / / / / / / / __ `__ \/ __ `/
+/ /_/ / / / / / / / / / /_/ / 
+\____/_/ /_/_/ /_/ /_/\__,_/  
+    /___/                     
+by Nodoka4318 (https://github.com/Nodoka4318/Ojima)
+    """.trimIndent()
+
+    println(ascii)
+
     Config.load()
     Easing.loadDefaultEasings()
 
