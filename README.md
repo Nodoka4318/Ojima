@@ -24,7 +24,27 @@ Retrieves the list of Ojimizer models in JSON format.
     ...
   ]
   ```
+  
+### GET /easings
 
+Retrieves the list of default easing options in JSON format.
+
+#### Response
+- `200 OK`:
+  ```json
+  [
+    {
+      "name": "EaseInSine",
+      "expression": "1 - Math.cos((x * Math.PI) / 2)"
+    },
+    {
+      "name": "EaseOutSine",
+      "expression": "Math.sin((x * Math.PI) / 2)"
+    },
+    ...
+  ]
+  ```
+  
 ### POST /reload
 
 Reloads the configuration if the correct admin password is provided.
