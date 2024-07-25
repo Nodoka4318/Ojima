@@ -2,9 +2,7 @@ package net.kankantari.ojima.ojimizing
 
 import com.google.gson.Gson
 import net.kankantari.ojima.errors.OjimaError
-import net.kankantari.ojima.ojimizing.impl.DefaultOjimizer
-import net.kankantari.ojima.ojimizing.impl.EasingOjimizer
-import net.kankantari.ojima.ojimizing.impl.KakukakuOjimizer
+import net.kankantari.ojima.ojimizing.impl.*
 
 class Ojimanager {
     data class JsonOjimizerModel(val name: String, val description: String);
@@ -13,13 +11,15 @@ class Ojimanager {
         private val ojimizers = listOf(
             DefaultOjimizer(),
             KakukakuOjimizer(),
-            EasingOjimizer()
+            EasingOjimizer(),
+            FlipHorizontalOjimizer(),
+            FlipVerticalOjimizer()
         )
 
         fun getOjimizer(name: String): Ojimizer {
             for(ojimizer in ojimizers) {
                 if (name == ojimizer.name) {
-                    return ojimizer;
+                    return ojimizer.javaClass.getDeclaredConstructor().newInstance()
                 }
             }
 

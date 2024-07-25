@@ -82,7 +82,7 @@ abstract class Ojimizer(val name: String, val description: String) {
         }
     }
 
-    fun ojimizeVideo(outputFile: File, bitrate: Int = -1) {
+    open fun ojimizeVideo(outputFile: File, bitrate: Int = -1) {
         val frameGrabber = FFmpegFrameGrabber(this.inputVideoFile);
         frameGrabber.start();
 
