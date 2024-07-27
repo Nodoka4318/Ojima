@@ -15,6 +15,14 @@ class Config {
             field = value
         }
 
+    var hostAddress: String = DEFAULT_HOST_ADDRESS
+        get() {
+            return field
+        }
+        private set(value) {
+            field = value
+        }
+
     var processCachePath: String = DEFAULT_PROCESS_CACHE_PATH
         get() {
             return field
@@ -47,6 +55,14 @@ class Config {
             field = value
         }
 
+    var allowCustomEasingExpression: Boolean = DEFAULT_ALLOW_CUSTOM_EASING_EXPRESSION
+        get() {
+            return field
+        }
+        private set(value) {
+            field = value
+        }
+
     fun save(path: String = CONFIG_FILE) {
         val jsonStr = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(this)
         val file = File(path)
@@ -60,12 +76,14 @@ class Config {
     }
 
     companion object {
-        const val CONFIG_FILE = "./config.json"
+        private const val CONFIG_FILE = "./config.json"
 
-        const val DEFAULT_PORT = 8080
-        const val DEFAULT_PROCESS_CACHE_PATH = "./process_cache"
-        const val DEFAULT_DELETE_ORIGINAL_VIDEO = true
-        const val DEFAULT_DELETE_PROCESSED_VIDEO = true
+        private const val DEFAULT_PORT = 8080
+        private const val DEFAULT_HOST_ADDRESS = "0.0.0.0"
+        private const val DEFAULT_PROCESS_CACHE_PATH = "./process_cache"
+        private const val DEFAULT_DELETE_ORIGINAL_VIDEO = true
+        private const val DEFAULT_DELETE_PROCESSED_VIDEO = true
+        private const val DEFAULT_ALLOW_CUSTOM_EASING_EXPRESSION = true
 
         lateinit var config: Config
 

@@ -22,7 +22,7 @@ by Nodoka4318 (https://github.com/Nodoka4318/Ojima)
     Config.load()
     Easing.loadDefaultEasings()
 
-    embeddedServer(Netty, port = Config.config.port, host = "0.0.0.0", module = Application::module)
+    embeddedServer(Netty, port = Config.config.port, host = Config.config.hostAddress, module = Application::module)
         .start(wait = true)
 }
 

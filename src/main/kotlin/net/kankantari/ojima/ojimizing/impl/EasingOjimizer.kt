@@ -1,5 +1,6 @@
 package net.kankantari.ojima.ojimizing.impl
 
+import net.kankantari.ojima.Config
 import net.kankantari.ojima.errors.OjimaError
 import net.kankantari.ojima.ojimizing.Ojimizer
 import net.kankantari.ojima.ojimizing.easings.Easing
@@ -15,6 +16,13 @@ class EasingOjimizer() : Ojimizer("イージング", "イージングを適用�
             val easingName = options.get("easing") as String
 
             if (easingName == "custom") {
+                if (!Config.config.allowCustomEasingExpression) {
+                    throw OjimaError(
+                        "Custom easing is selected though custom easing is not allowed in the config.",
+                        "カスタムイージングは許可されていません。"
+                    )
+                }
+
                 if (options.containsKey("easingExpression")) {
                     val customExpr = options.get("easingExpression") as String
                     easing = Easing("custom", customExpr)
