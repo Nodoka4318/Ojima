@@ -1,6 +1,6 @@
 package net.kankantari.ojima.ojimizing
 
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import net.kankantari.ojima.errors.OjimaError
 import net.kankantari.ojima.ojimizing.impl.*
 
@@ -34,7 +34,7 @@ class Ojimanager {
                 JsonOjimizerModel(it.name, it.description)
             }
 
-            return Gson().toJson(ojimizerModels)
+            return GsonBuilder().setPrettyPrinting().create().toJson(ojimizerModels)
         }
     }
 }
