@@ -33,6 +33,7 @@ class Score {
                     var markerCount = 1;
 
                     if (index + 1 >= literals.size) { // 最後が1つの伸ばしだったとき（d-）
+                        tokens.last().length *= markerCount + 1; // (markerCount + 1)倍する
                         break;
                     }
 
@@ -50,9 +51,71 @@ class Score {
                     continue; // indexはインクリメント済みだから、次のリテラルへ
                 }
 
-                tokens.add(Token(lit.type.toTokenType(), lit.length));
+                // 連符 [dbd, d]は、dの長さでdbdを再生する
+                if (lit.type == EnumLiteralType.LBracket) {
+                    var innerScore = "" // dbdにあたる譜面
 
-                index++;
+                    // まず、コンマまで読む
+                    while (literals[index].type != EnumLiteralType.Comma) {
+                        if (index + 1 >= literals.size) {
+                            throw OjimaError(
+                                "Incomplete tuplet expression.",
+                                "不完全な連符表現です。"
+                            );
+                        }
+
+                        if (literals[++index].type == EnumLiteralType.Comma) {
+                            break
+                        }
+
+                        innerScore += literals[index].label
+                    }
+
+                    var innerScoreTokens = parse(innerScore)
+                    var lengthScore = "" // dにあたる譜面
+
+                    // 括弧が閉じるまで読む
+                    while (literals[index].type != EnumLiteralType.RBracket) {
+                        if (index + 1 >= literals.size) {
+                            throw OjimaError(
+                                "Incomplete tuplet expression.",
+                                "不完全な連符表現です。"
+                            );
+                        }
+
+                        if (literals[++index].type == EnumLiteralType.RBracket) {
+                            break
+                        }
+
+                        lengthScore += literals[index].label
+                    }
+
+                    var lengthScoreTokens = parse(lengthScore)
+
+                    // innerScoreTokensのそれぞれ長さをlengthScoreTokensの長さの合計に
+                    var lengthToModify = lengthScoreTokens.sumOf { t -> t.length.toDouble() } // Double
+                    var originalLength = innerScoreTokens.sumOf { t -> t.length.toDouble() }
+
+                    for (token in innerScoreTokens) {
+                        val newTokenLength = (token.length.toDouble() / originalLength) * lengthToModify
+                        tokens.add(Token(token.type, newTokenLength.toFloat())) // Double -> Float
+                    }
+
+                    index++;
+                    continue;
+                }
+
+                if (lit.type == EnumLiteralType.Backward || lit.type == EnumLiteralType.Forward) {
+                    tokens.add(Token(lit.type.toTokenType(), lit.length));
+                    index++;
+
+                    continue;
+                }
+
+                throw OjimaError(
+                    "Unexpected token: ${lit.label}",
+                    "不正なトークンです。"
+                )
             }
 
             return tokens;

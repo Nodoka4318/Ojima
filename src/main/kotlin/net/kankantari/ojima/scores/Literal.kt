@@ -28,7 +28,11 @@ class Literal {
             Literal('p', 0.5f, EnumLiteralType.Backward),
             Literal('r', 0.5f, EnumLiteralType.Rest),
             // 伸ばし
-            Literal('-', 0f, EnumLiteralType.Extend)
+            Literal('-', 0f, EnumLiteralType.Extend),
+            // 連符用
+            Literal('[', 0f, EnumLiteralType.LBracket),
+            Literal(']', 0f, EnumLiteralType.RBracket),
+            Literal(',', 0f, EnumLiteralType.Comma)
         );
 
         fun findLiteral(label: Char): Literal {
