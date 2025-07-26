@@ -139,8 +139,6 @@ fun Application.configureRouting() {
                 val score = Score(request.score)
                 val ojimizer = Ojimanager.getOjimizer(request.mode)
 
-                ojimizer.setOptions(request.options)
-
                 if (!File(originalVideoFilePath).exists()) {
                     File(originalVideoFilePath).mkdirs()
                 }
@@ -157,6 +155,7 @@ fun Application.configureRouting() {
                 originalVideoFile.writeBytes(originalVideoStream!!)
 
                 ojimizer.initialize(score, bpm, fps, originalVideoFile)
+                ojimizer.setOptions(request.options) // initializeの後に実行する
                 ojimizer.ojimizeVideo(processedVideoFile)
 
                 call.response.header(

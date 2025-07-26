@@ -9,13 +9,13 @@ import org.bytedeco.javacv.Frame
 import java.io.File
 
 abstract class Ojimizer(val name: String, val description: String) {
-
     lateinit var frameIndexSet: List<Int>;
     lateinit var score: Score;
     lateinit var inputVideoFile: File;
     lateinit var ojimaOptions: Map<String, Any>
     var bpm: Int = 0;
     var fps: Float = 0f;
+    var videoFps: Double = 0.0;
 
 
     fun initialize(score: Score, bpm: Int, fps: Float, inputVideoFile: File, frameIndexSet: List<Int>) {
@@ -37,6 +37,7 @@ abstract class Ojimizer(val name: String, val description: String) {
         frameGrabber.start();
 
         this.frameIndexSet = (0..<frameGrabber.lengthInFrames - 1).toList(); // なぜか-1が必要
+        this.videoFps = frameGrabber.frameRate
 
         frameGrabber.stop()
         frameGrabber.release()
@@ -65,7 +66,7 @@ abstract class Ojimizer(val name: String, val description: String) {
                     }
 
                     // optionのstartFrame, endFrameは1から始める
-                    frameIndexSet = (startFrame - 1..<endFrame).toList(); // なぜか-1
+                    frameIndexSet = (startFrame - 1..<endFrame).toList(); // TODO: ここで-1がいるか？
                 } catch (error: Error) {
                     error.printStackTrace()
                     throw OjimaError(
@@ -77,6 +78,31 @@ abstract class Ojimizer(val name: String, val description: String) {
                 throw OjimaError(
                     "Either startFrame or endFrame is missing.",
                     "startFrameまたはendFrameオプションのいずれかが不足しています。"
+                )
+            }
+        } else if (options.containsKey("startTime") || options.containsKey("endTime")) {
+            try {
+                val startTime = options.get("startTime")
+                val endTime = options.get("endTime")
+
+                var startFrame = if (startTime == null) frameIndexSet.first() else (startTime as Double * this.videoFps).toInt();
+                var endFrame = if (endTime == null) frameIndexSet.last() else (endTime as Double * this.videoFps).toInt();
+
+                if (frameIndexSet.first() > startFrame) {
+                    startFrame = frameIndexSet.first();
+                }
+
+                if (frameIndexSet.last() < endFrame) {
+                    endFrame = frameIndexSet.last()
+                }
+
+                // optionのstartFrame, endFrameは1から始める
+                frameIndexSet = (startFrame..<endFrame).toList(); // ここは-1いらないはず
+            } catch (error: Error) {
+                error.printStackTrace()
+                throw OjimaError(
+                    "Error whilst setting custom startTime and endTime.",
+                    "時間開始位置または終了位置が不正です。"
                 )
             }
         }
