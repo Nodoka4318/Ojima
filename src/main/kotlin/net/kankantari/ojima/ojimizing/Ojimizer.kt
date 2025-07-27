@@ -117,7 +117,9 @@ abstract class Ojimizer(val name: String, val description: String) {
 
         frameRecorder.videoCodec = avcodec.AV_CODEC_ID_H264;
 
-        frameRecorder.videoBitrate = if (bitrate > 0) bitrate else frameGrabber.videoBitrate; // bps
+        frameRecorder.videoBitrate = if (bitrate > 0) bitrate else 0 // bps
+
+        frameRecorder.setVideoOption("crf", "16") // crfが低いほど品質良い TODO: 設定可能に
 
         frameRecorder.start();
 

@@ -7,8 +7,8 @@ import org.bytedeco.javacv.FFmpegFrameGrabber
 import org.bytedeco.javacv.FFmpegFrameRecorder
 import org.bytedeco.javacv.Frame
 import org.bytedeco.javacv.OpenCVFrameConverter
-import org.bytedeco.opencv.global.opencv_core as cv
 import java.io.File
+import org.bytedeco.opencv.global.opencv_core as cv
 
 class FlipHorizontalOjimizer : Ojimizer("左右反転", "左右反転します。") {
     override fun ojimizeIndex(): List<Int> {
@@ -24,7 +24,9 @@ class FlipHorizontalOjimizer : Ojimizer("左右反転", "左右反転します�
 
         frameRecorder.videoCodec = avcodec.AV_CODEC_ID_H264;
 
-        frameRecorder.videoBitrate = if (bitrate > 0) bitrate else frameGrabber.videoBitrate; // bps
+        frameRecorder.videoBitrate = if (bitrate > 0) bitrate else 0 // bps
+
+        frameRecorder.setVideoOption("crf", "16") // crfが低いほど品質良い TODO: 設定可能に
 
         frameRecorder.start();
 
